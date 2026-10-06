@@ -28,10 +28,13 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      # 3. Build and run tests
-      - name: Build and test
-        run: mvn clean test
+      # 3. Build, run tests, generate JaCoCo report, and enforce coverage
+      - name: Build, test and verify
+        run: mvn clean verify
 
-      # 4. Package application
-      - name: Package application
-        run: mvn package -DskipTests
+      # 4. Upload JaCoCo coverage report
+      - name: Upload JaCoCo report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/
